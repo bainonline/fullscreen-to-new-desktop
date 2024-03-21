@@ -1,0 +1,23 @@
+{
+    "KPlugin": {
+        "Name": "Maximize to new desktop",
+        "Description": "",
+        "Icon": "preferences-system-windows",
+        
+        "Authors": [
+            {
+                "Email": "bain@devslashzero.com",
+                "Name": "Abhijit Bhopatkar"
+            }
+        ],
+        "Id": "fullscreenToNewDesktop",
+        "Version": "1.0.2",
+        "License": "BSD",
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "X-KDE-Library": "kwin/effects/configs/kcm_kwin4_genericscripted",
+    "X-KDE-ParentComponents" : "max2NewVirtualDesktop",
+    "X-KDE-ServiceTypes": "KWin/Script,KCModule",
+    "KPackageStructure": "KWin/Script"
+}
