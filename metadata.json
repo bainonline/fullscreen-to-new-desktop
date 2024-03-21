@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Name": "Maximize to new desktop",
+        "Name": "Fullscreen to new desktop",
         "Description": "",
         "Icon": "preferences-system-windows",
         
@@ -11,7 +11,7 @@
             }
         ],
         "Id": "fullscreenToNewDesktop",
-        "Version": "1.0.2",
+        "Version": "1.0",
         "License": "BSD",
     },
     "X-Plasma-API": "javascript",
