@@ -12,7 +12,7 @@
         ],
         "Id": "fullscreenToNewDesktop",
         "Version": "1.0",
-        "License": "BSD",
+        "License": "BSD"
     },
     "X-Plasma-API": "javascript",
     "X-Plasma-MainScript": "code/main.js",
