@@ -36,9 +36,9 @@ function moveToNewDesktop(window) {
     newDesktop = findDesktop(window.internalId.toString());
 
     savedDesktops[window.internalId.toString()] = workspace.currentDesktop;
-    workspace.currentDesktop = newDesktop;
     ds = [newDesktop]
     window.desktops = ds
+    workspace.currentDesktop = newDesktop;
 }
 
 function restoreDesktop(window) {
@@ -71,16 +71,18 @@ function fullScreenChanged(window) {
 function install() {
     log("Installing handler for workspace window add");
     workspace.windowAdded.connect(window => {
-        log("Installing fullscreen and close handles for" + window.internalId.toString());
-        window.fullScreenChanged.connect(function () {
-            log(window.internalId.toString() + "fullscreen changed");
-            fullScreenChanged(window);
-        });
-        window.closed.connect(function () {
-            log(window.internalId.toString() + " closed");
-            restoreDesktop(window);
-        });
-
+        // Check if the window is normal
+        if(window.normalWindow){
+            log("Installing fullscreen and close handles for" + window.internalId.toString());
+            window.fullScreenChanged.connect(function () {
+                log(window.internalId.toString() + "fullscreen changed");
+                fullScreenChanged(window);
+            });
+            window.closed.connect(function () {
+                log(window.internalId.toString() + " closed");
+                restoreDesktop(window);
+            });
+        }
     });
     log("Workspacke handler installed");
 }
