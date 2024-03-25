@@ -54,6 +54,7 @@ function restoreDesktop(window) {
         }
         workspace.removeDesktop(currentDesktop);
         workspace.currentDesktop = window.desktops[0];
+        workspace.raiseWindow(window);
     }
 }
 
