@@ -71,8 +71,8 @@ function fullScreenChanged(window) {
 function install() {
     log("Installing handler for workspace window add");
     workspace.windowAdded.connect(window => {
-        // Check if the window is normal
-        if(window.normalWindow){
+        // Check if the window is normal and fullscreenable
+        if(window.normalWindow && window.fullScreenable){
             log("Installing fullscreen and close handles for" + window.internalId.toString());
             window.fullScreenChanged.connect(function () {
                 log(window.internalId.toString() + "fullscreen changed");
