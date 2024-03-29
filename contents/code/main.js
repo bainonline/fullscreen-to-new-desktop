@@ -1,18 +1,6 @@
 function log(msg) {
     print("KWinMax2NewVirtualDesktop: " + msg);
 }
-
-function findDesktop(name) {
-    log("Trying to find " + name + " " + workspace.desktops);
-    for (i = 0; i < workspace.desktops.length; i++) {
-        desktop = workspace.desktops[i];
-        if (desktop.name == name) {
-            log("Found :" + desktop.name);
-            return desktop;
-        }
-    }
-}
-
 const savedDesktops = {};
 
 function getNextDesktopNumber() {
@@ -33,12 +21,22 @@ function moveToNewDesktop(window) {
 
     workspace.createDesktop(newDesktopNumber, window.internalId.toString());
 
-    newDesktop = findDesktop(window.internalId.toString());
+    newDesktop = workspace.desktops[newDesktopNumber];;
 
-    savedDesktops[window.internalId.toString()] = workspace.currentDesktop;
+    savedDesktops[window.internalId.toString()] = window.desktops;
     ds = [newDesktop]
     window.desktops = ds
     workspace.currentDesktop = newDesktop;
+}
+
+function sanitizeDesktops(desktops) {
+    log("Sanitizing desktops: " + JSON.stringify(desktops))
+    let sanitizedDesktops = desktops.filter(value => Object.keys(value).length !== 0);
+    log("Sanitized Desktops: " + JSON.stringify(sanitizedDesktops))
+    if (sanitizedDesktops.length < 1) {
+        sanitizedDesktops = [workspace.desktops[0]];
+    }
+    return sanitizedDesktops
 }
 
 function restoreDesktop(window) {
@@ -47,13 +45,17 @@ function restoreDesktop(window) {
         log("here")
         let currentDesktop = window.desktops[0];
         log(currentDesktop);
-        if (savedDesktops.hasOwnProperty(window.internalId.toString())) {
-            let desktops = [savedDesktops[window.internalId.toString()]]
+         if (window.internalId.toString() in savedDesktops ) {
+            log("Found saved desktops for: " + window.internalId.toString())
+            let desktops = sanitizeDesktops(savedDesktops[window.internalId.toString()])
             delete savedDesktops[window.internalId.toString()]
             window.desktops = desktops;
+            workspace.removeDesktop(currentDesktop);
+            workspace.currentDesktop = window.desktops[0];
+            workspace.raiseWindow(window);
+        } else {
+            log("Nothng to restore");
         }
-        workspace.removeDesktop(currentDesktop);
-        workspace.currentDesktop = window.desktops[0];
     }
 }
 
